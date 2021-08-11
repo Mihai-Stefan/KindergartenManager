@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DatabaseAccess.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,8 @@ namespace DataAccess.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
-        public DbSet<Kid> Kid { get; set; }
+        public DbSet<Kid> Kids { get; set; }
+        public DbSet<KidImage> KidImages { get; set; }
+        public DbSet<KidParent> KidParents { get; set; }
     }
 }

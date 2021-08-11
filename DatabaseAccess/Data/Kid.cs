@@ -12,6 +12,8 @@ namespace DataAccess.Data
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
+        public string Details { get; set; }
+
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public string UpdatedBy { get; set; }

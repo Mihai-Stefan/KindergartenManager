@@ -4,14 +4,16 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210811173808_AddKidParentTable")]
+    partial class AddKidParentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace DatabaseAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Details")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -51,7 +50,7 @@ namespace DatabaseAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kids");
+                    b.ToTable("Kid");
                 });
 
             modelBuilder.Entity("DataAccess.Data.KidImage", b =>
@@ -71,58 +70,7 @@ namespace DatabaseAccess.Migrations
 
                     b.HasIndex("KidId");
 
-                    b.ToTable("KidImages");
-                });
-
-            modelBuilder.Entity("DatabaseAccess.Data.KidParent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IconStyle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsLegalTutor")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("KidId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParentJob")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParentType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ParentWorkplace")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KidId");
-
-                    b.ToTable("KidParents");
+                    b.ToTable("KidImage");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -328,15 +276,6 @@ namespace DatabaseAccess.Migrations
                         .HasForeignKey("KidId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Kid");
-                });
-
-            modelBuilder.Entity("DatabaseAccess.Data.KidParent", b =>
-                {
-                    b.HasOne("DataAccess.Data.Kid", "Kid")
-                        .WithMany()
-                        .HasForeignKey("KidId");
 
                     b.Navigation("Kid");
                 });
