@@ -37,9 +37,16 @@ namespace Business.Repository
             return await _db.SaveChangesAsync();
         }
 
-        public Task<int> DeleteKidImageByImageUrl(string imageUrl)
+        public async Task<int> DeleteKidImageByImageUrl(string imageUrl)
         {
-            throw new NotImplementedException();
+            var allImages = await _db.KidImages.FirstOrDefaultAsync
+                                (x => x.KidImageUrl.ToLower() == imageUrl.ToLower());
+            if (allImages == null)
+            {
+                return 0;
+            }
+            _db.KidImages.Remove(allImages);
+            return await _db.SaveChangesAsync();
         }
 
 

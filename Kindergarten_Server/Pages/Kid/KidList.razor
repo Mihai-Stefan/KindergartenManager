@@ -3,6 +3,7 @@
 @using Business.Repository.IRepository
 @inject IKidRepository KidRepository
 @inject IJSRuntime JsRuntime
+@inject Kindergarten_Server.Service.IService.IFileUpload FileUpload
 @inject NavigationManager NavigationManager
 
 
@@ -23,9 +24,7 @@
                 <tr>
                     <th>Full Name</th>
                     <th>Details</th>
-                    <th>
-                        CRUD buttons
-                    </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,9 +56,16 @@
 </div>
 
 
+<DeleteConfirmation IsParentComponentProcessing="IsProcessing" ConfirmationChanged="ConfirmDelete_Click"></DeleteConfirmation>
+
+
+
 @code {
     private IEnumerable<KidDTO> Kids { get; set; } = new List<KidDTO>();
     private int? DeleteKidId { get; set; } = null;
+    private bool IsProcessing { get; set; } = false;
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,10 +73,32 @@
     }
 
 
+
     private async Task HandleDelete(int kidId)
     {
         DeleteKidId = kidId;
-        //await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+        await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+
     }
 
-}
+
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsProcessing = true;
+        if (isConfirmed && DeleteKidId != null)
+        {
+            KidDTO kid = await KidRepository.GetKid(DeleteKidId.Value);
+            foreach (var image in kid.KidImages)
+            {
+                var imageName = image.KidImageUrl.Replace($"KidImages/", "");
+                FileUpload.DeleteFile(imageName);
+            }
+
+            await KidRepository.DeleteKid(DeleteKidId.Value);
+            await JsRuntime.ToastrSuccess("Kid data Deleted successfully");
+            Kids = await KidRepository.GetAllKids();
+        }
+        await JsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        IsProcessing = false;
+    } }

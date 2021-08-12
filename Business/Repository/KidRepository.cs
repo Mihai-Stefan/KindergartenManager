@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -130,6 +131,16 @@ namespace Business.Repository
             var kidDetails = await _db.Kids.FindAsync(kidId);
             if (kidDetails != null)
             {
+                var allImages = await _db.KidImages.Where(x => x.KidId == kidId).ToListAsync();
+                foreach(var image in allImages)
+                {
+                    if (File.Exists(image.KidImageUrl))
+                    {
+                        File.Delete(image.KidImageUrl);
+                    }
+                }
+
+                _db.KidImages.RemoveRange(allImages);
                 _db.Kids.Remove(kidDetails);
                 return await _db.SaveChangesAsync();
 

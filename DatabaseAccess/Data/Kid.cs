@@ -20,5 +20,6 @@ namespace DataAccess.Data
         public DateTime UpdatedDate { get; set; }
 
         public virtual ICollection<KidImage> KidImages { get; set; }
+
     }
 }
