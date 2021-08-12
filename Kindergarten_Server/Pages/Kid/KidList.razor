@@ -1,4 +1,9 @@
 ﻿@page "/kg-kid"
+@using Models
+@using Business.Repository.IRepository
+@inject IKidRepository KidRepository
+@inject IJSRuntime JsRuntime
+
 
 <div class="row mt-4">
     <div class="col-8">
@@ -9,6 +14,61 @@
     </div>
 </div>
 
+@*the kids table*@
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Details</th>
+                    <th>
+                        CRUD buttons
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Kids.Any())
+                {
+                    foreach (var kid in Kids)
+                    {
+                        <tr>
+                            <td>@kid.FullName</td>
+                            <td>@kid.Details</td>
+
+                            <td>
+                                <NavLink href="@($"kg-kid/edit/{kid.Id}")" class="btn btn-primary">Edit</NavLink>
+                                <button class="btn btn-danger" @onclick="()=>HandleDelete(kid.Id)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 @code {
+    private IEnumerable<KidDTO> Kids { get; set; } = new List<KidDTO>();
+    private int? DeleteKidId { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Kids = await KidRepository.GetAllKids();
+    }
+
+
+    private async Task HandleDelete(int kidId)
+    {
+        DeleteKidId = kidId;
+        //await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
 
 }

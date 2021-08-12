@@ -1,19 +1,27 @@
 ﻿@page "/kg-kid/create"
 @using Models
+@using Business.Repository.IRepository
+@inject IKidRepository KidRepository
+@inject NavigationManager NavigationManager
+
 
 <div class="row mt-2 mb-5">
     <h3 class="card-title text-info mb-3 ml-3">@Title Kid</h3>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <EditForm Model="@KidModel">
+                <EditForm Model="@KidModel" OnValidSubmit="HandleKidUpsert">
+                    <DataAnnotationsValidator />
+                    @*<ValidationSummary />*@
                     <div class="form-group">
                         <label>FirstName</label>
                         <InputText @bind-Value="KidModel.FirstName" class="form-control"></InputText>
+                        <ValidationMessage For="() => KidModel.FirstName" />
                     </div>
                     <div class="form-group">
                         <label>LastName</label>
                         <InputText @bind-Value="KidModel.LastName" class="form-control"></InputText>
+                        <ValidationMessage For="() => KidModel.LastName" />
                     </div>
                     <div class="form-group">
                         <label>Details</label>
@@ -37,6 +45,18 @@
 
 @code {
     private KidDTO KidModel { get; set; } = new KidDTO();
-    public string Title { get; set; } = "Create";
+    private string Title { get; set; } = "Create";
+
+    private async Task HandleKidUpsert()
+    {
+        var kidDetailsByName = await KidRepository.IsKidUnique(KidModel.FullName);
+        if (kidDetailsByName != null)
+        {
+            // the kid allready exist > shoe error
+            return;
+        }
+        var createdResult = await KidRepository.CreateKid(KidModel);
+        NavigationManager.NavigateTo("kg-kid");
+    }
 
 }

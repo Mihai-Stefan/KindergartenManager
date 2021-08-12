@@ -16,5 +16,6 @@ namespace Models
         public string LastName { get; set; }
         public string Details { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

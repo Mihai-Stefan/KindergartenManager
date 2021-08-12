@@ -13,7 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-
+using Business.Repository.IRepository;
+using Business.Repository;
 
 namespace Kindergarten_Server
 {
@@ -35,6 +36,7 @@ namespace Kindergarten_Server
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IKidRepository, KidRepository>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
