@@ -17,5 +17,10 @@ namespace Models
         public string Details { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
+
+        public virtual ICollection<KidImageDTO> KidImages { get; set; }
+
+        public List<string> ImageUrls { get; set; }
+
     }
 }

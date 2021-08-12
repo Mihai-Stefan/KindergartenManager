@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Business.Repository.IRepository;
 using Business.Repository;
+using Kindergarten_Server.Service;
+using Kindergarten_Server.Service.IService;
+
 
 namespace Kindergarten_Server
 {
@@ -37,8 +40,11 @@ namespace Kindergarten_Server
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IKidRepository, KidRepository>();
+            services.AddScoped<IKidImageRepository, KidImageRepository>();
+            services.AddScoped<IFileUpload, FileUpload>();
 
             services.AddRazorPages();
+            services.AddHttpContextAccessor();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
         }
