@@ -3,6 +3,7 @@
 @using Business.Repository.IRepository
 @inject IKidRepository KidRepository
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
 
 
 <div class="row mt-4">
@@ -40,6 +41,7 @@
                                 <NavLink href="@($"kg-kid/edit/{kid.Id}")" class="btn btn-primary">Edit</NavLink>
                                 <button class="btn btn-danger" @onclick="()=>HandleDelete(kid.Id)">Delete</button>
                             </td>
+
                         </tr>
                     }
                 }

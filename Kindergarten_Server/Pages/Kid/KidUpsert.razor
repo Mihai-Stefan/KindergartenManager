@@ -1,8 +1,10 @@
 ﻿@page "/kg-kid/create"
+@page "/kg-kid/edit/{Id:int}"
 @using Models
 @using Business.Repository.IRepository
 @inject IKidRepository KidRepository
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 
 <div class="row mt-2 mb-5">
@@ -44,18 +46,69 @@
 
 
 @code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
     private KidDTO KidModel { get; set; } = new KidDTO();
     private string Title { get; set; } = "Create";
 
+    protected override async Task OnInitializedAsync()
+    {
+        if ( Id!= null)
+        {
+            // updating
+            Title = "Update";
+            KidModel = await KidRepository.GetKid(Id.Value);
+            if (true)
+            {
+
+            }
+        }
+        else
+        {
+            // create 
+            KidModel = new KidDTO();
+        }
+    }
+
+
+
     private async Task HandleKidUpsert()
     {
-        var kidDetailsByName = await KidRepository.IsKidUnique(KidModel.FullName);
-        if (kidDetailsByName != null)
+        try
         {
-            // the kid allready exist > shoe error
-            return;
+            var kidDetailsByName = await KidRepository.IsKidUnique(KidModel.FullName, KidModel.Id);
+            if (kidDetailsByName != null)
+            {
+                // the kid allready exist > show error
+                await JsRuntime.ToastrError("This Kid name already exists.");
+                return;
+            }
+
+            if (KidModel.Id != 0 && Title == "Update")
+            {
+                // update
+                var updateKudResult = await KidRepository.UpdateKid(KidModel.Id, KidModel);
+                await JsRuntime.ToastrSuccess("Kid data updated successfully");
+
+            }
+            else
+            {
+                // create
+
+                var createdResult = await KidRepository.CreateKid(KidModel);
+                await JsRuntime.ToastrSuccess("Kid record created successfully");
+            }
         }
-        var createdResult = await KidRepository.CreateKid(KidModel);
+        catch (Exception ex)
+        {
+            // log exceptions
+        }
+
+
+
+
         NavigationManager.NavigateTo("kg-kid");
     }
 

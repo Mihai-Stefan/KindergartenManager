@@ -65,14 +65,26 @@ namespace Business.Repository
 
 
         // if unique returns null else returns the kid object
-        public async Task<KidDTO> IsKidUnique(string fullName)
+        public async Task<KidDTO> IsKidUnique(string fullName, int kidId = 0)
         {
             try
             {
-                KidDTO kid = _mapper.Map<Kid, KidDTO>(
-                    await _db.Kids.FirstOrDefaultAsync(x => x.FirstName.ToLower() + " " + x.LastName.ToLower() == fullName.ToLower()));
+                if (kidId == 0)
+                {
+                    KidDTO kid = _mapper.Map<Kid, KidDTO>(
+                        await _db.Kids.FirstOrDefaultAsync(x => x.FirstName.ToLower() + " " + x.LastName.ToLower() == fullName.ToLower()));
 
-                return kid;
+                    return kid;
+                }
+                else
+                {
+                    KidDTO kid = _mapper.Map<Kid, KidDTO>(
+                        await _db.Kids.FirstOrDefaultAsync(x => x.FirstName.ToLower() + " " + x.LastName.ToLower() == fullName.ToLower()
+                        && x.Id != kidId));
+
+                    return kid;
+                }
+
             }
             catch (Exception ex)
             {

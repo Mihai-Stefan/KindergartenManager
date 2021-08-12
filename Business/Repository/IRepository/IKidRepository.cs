@@ -19,6 +19,6 @@ namespace Business.Repository.IRepository
 
         public Task<IEnumerable<KidDTO>> GetAllKids();
 
-        public Task<KidDTO> IsKidUnique(string name);
+        public Task<KidDTO> IsKidUnique(string name, int kidId=0);
     }
 }
