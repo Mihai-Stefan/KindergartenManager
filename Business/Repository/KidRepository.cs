@@ -38,7 +38,7 @@ namespace Business.Repository
             try
             {
                 IEnumerable<KidDTO> kidDTOs = 
-                    _mapper.Map<IEnumerable<Kid>, IEnumerable<KidDTO>>(_db.Kids);
+                    _mapper.Map<IEnumerable<Kid>, IEnumerable<KidDTO>>(_db.Kids.Include(x => x.KidImages));
 
                 return kidDTOs;
             }
