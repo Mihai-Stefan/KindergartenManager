@@ -46,6 +46,7 @@ namespace Kindergarten_Server
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
             services.AddScoped<IFileUpload, FileUpload>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddRazorPages();
             services.AddHttpContextAccessor();
@@ -54,7 +55,7 @@ namespace Kindergarten_Server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -74,6 +75,7 @@ namespace Kindergarten_Server
 
             app.UseAuthentication();
             app.UseAuthorization();
+            dbInitializer.initialize();
 
             app.UseEndpoints(endpoints =>
             {
