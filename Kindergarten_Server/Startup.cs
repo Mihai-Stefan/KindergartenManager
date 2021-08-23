@@ -17,7 +17,7 @@ using Business.Repository.IRepository;
 using Business.Repository;
 using Kindergarten_Server.Service;
 using Kindergarten_Server.Service.IService;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace Kindergarten_Server
 {
@@ -37,6 +37,10 @@ namespace Kindergarten_Server
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
+                .AddDefaultUI();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IKidRepository, KidRepository>();

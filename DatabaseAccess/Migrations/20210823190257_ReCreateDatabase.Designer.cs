@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210812164726_AddedImageFields")]
-    partial class AddedImageFields
+    [Migration("20210823190257_ReCreateDatabase")]
+    partial class ReCreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

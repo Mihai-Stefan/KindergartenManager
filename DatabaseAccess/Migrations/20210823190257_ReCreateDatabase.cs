@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseAccess.Migrations
 {
-    public partial class CreateInitialDatabase : Migration
+    public partial class ReCreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,13 +47,14 @@ namespace DatabaseAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Kid",
+                name: "Kids",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -61,7 +62,7 @@ namespace DatabaseAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kid", x => x.Id);
+                    table.PrimaryKey("PK_Kids", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +172,7 @@ namespace DatabaseAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "KidImage",
+                name: "KidImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -181,13 +182,43 @@ namespace DatabaseAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KidImage", x => x.Id);
+                    table.PrimaryKey("PK_KidImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_KidImage_Kid_KidId",
+                        name: "FK_KidImages_Kids_KidId",
                         column: x => x.KidId,
-                        principalTable: "Kid",
+                        principalTable: "Kids",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KidParents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsLegalTutor = table.Column<bool>(type: "bit", nullable: false),
+                    ParentJob = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentWorkplace = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KidId = table.Column<int>(type: "int", nullable: true),
+                    IconStyle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KidParents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_KidParents_Kids_KidId",
+                        column: x => x.KidId,
+                        principalTable: "Kids",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -230,8 +261,13 @@ namespace DatabaseAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KidImage_KidId",
-                table: "KidImage",
+                name: "IX_KidImages_KidId",
+                table: "KidImages",
+                column: "KidId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KidParents_KidId",
+                table: "KidParents",
                 column: "KidId");
         }
 
@@ -253,7 +289,10 @@ namespace DatabaseAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "KidImage");
+                name: "KidImages");
+
+            migrationBuilder.DropTable(
+                name: "KidParents");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -262,7 +301,7 @@ namespace DatabaseAccess.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Kid");
+                name: "Kids");
         }
     }
 }
