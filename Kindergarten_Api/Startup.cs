@@ -37,6 +37,7 @@ namespace Kindergarten_Api
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
 
+            services.AddRouting(option => option.LowercaseUrls = true);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
