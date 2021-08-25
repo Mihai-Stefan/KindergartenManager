@@ -2,6 +2,7 @@ using Business.Repository;
 using Business.Repository.IRepository;
 using DataAccess.Data;
 using DataAcesss.Data;
+using Kindergarten_Api.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,10 @@ namespace Kindergarten_Api
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            var appSettingsSection = Configuration.GetSection("APISettings");
+            services.Configure<APISettings>(appSettingsSection);
+
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IKidRepository, KidRepository>();
