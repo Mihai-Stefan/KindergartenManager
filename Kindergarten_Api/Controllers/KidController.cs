@@ -1,4 +1,6 @@
 ﻿using Business.Repository.IRepository;
+using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -19,6 +21,8 @@ namespace Kindergarten_Api.Controllers
             _kidRepository = kidRepository;
         }
 
+
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpGet]
         public async Task<IActionResult> GetKids()
         {
