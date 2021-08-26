@@ -22,7 +22,7 @@ namespace Kindergarten_Api.Controllers
         }
 
 
-        [Authorize(Roles = SD.Role_Admin)]
+        //[Authorize(Roles = SD.Role_Visitor)]
         [HttpGet]
         public async Task<IActionResult> GetKids()
         {
@@ -30,6 +30,8 @@ namespace Kindergarten_Api.Controllers
             return Ok(allKids);
         }
 
+
+        [Authorize(Roles = SD.Role_Visitor)]
         [HttpGet("{kidId}")]
         public async Task<IActionResult> GetKid(int? kidId)
         {

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{4B60F829-BE16-4757-9579-A0BAF17B9D85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten_Api", "Kindergarten_Api\Kindergarten_Api.csproj", "{B9C366CA-B762-428E-A087-4E36E19C8DE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kindergarten_Api", "Kindergarten_Api\Kindergarten_Api.csproj", "{B9C366CA-B762-428E-A087-4E36E19C8DE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kindergarten_Client", "Kindergarten_Client\Kindergarten_Client.csproj", "{20C14BE5-4CFB-4136-B0B6-8D600BB118CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B9C366CA-B762-428E-A087-4E36E19C8DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9C366CA-B762-428E-A087-4E36E19C8DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9C366CA-B762-428E-A087-4E36E19C8DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C14BE5-4CFB-4136-B0B6-8D600BB118CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C14BE5-4CFB-4136-B0B6-8D600BB118CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C14BE5-4CFB-4136-B0B6-8D600BB118CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C14BE5-4CFB-4136-B0B6-8D600BB118CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
