@@ -1,0 +1,37 @@
+﻿@*@page "/carousel-test"*@
+@inject IJSRuntime JSRuntime
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="images/slide1bw.jpg" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="images/slide1.jpg" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="images/slide2bw.jpg" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="images/slide2.jpg" class="d-block w-100">
+        </div>
+
+        <div class="carousel-item">
+            <img src="images/slide3bw.jpg" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="images/slide3.jpg" class="d-block w-100">
+        </div>
+    </div>
+
+</div>
+
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("startCarousels");
+    }
+}
