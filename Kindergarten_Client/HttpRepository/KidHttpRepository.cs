@@ -21,7 +21,7 @@ namespace Kindergarten_Client.HttpRepository
 
         public async Task<List<Kid>> GetKids()
         {
-            var response = await _client.GetAsync("kids");
+            var response = await _client.GetAsync("kid");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

@@ -77,6 +77,16 @@ namespace Kindergarten_Api
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
 
+            //services.AddCors(policy =>
+            //{
+            //    policy.AddPolicy("CorsPolicy", opt => opt
+            //        .AllowAnyOrigin()
+            //        .AllowAnyHeader()
+            //        .AllowAnyMethod());
+            //});
+
+
+
             services.AddRouting(option => option.LowercaseUrls = true);
 
             services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null)
