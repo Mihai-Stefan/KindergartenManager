@@ -1,0 +1,35 @@
+﻿@page "/radzen-list"
+
+@using DataAccess.Data
+
+<h3>Radzen Kids List</h3>
+
+@if (KidList == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="container">
+        <RadzenDataGrid AllowPaging="true"
+                        AllowFiltering="true"
+                        AllowColumnResize="true"
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        PageSize="10"
+                        AllowSorting="true"
+                        Data="@KidList"
+                        TItem="Kid"
+                        ColumnWidth="300px">
+            <Columns>
+                <RadzenDataGridColumn TItem="Kid" Property="FirstName" Title="First Name" Width="12%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Kid" Property="LastName" Title="Last Name" Width="12%"></RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Kid" Property="Details" Title="Details"></RadzenDataGridColumn>
+
+
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+}
+
+
+
