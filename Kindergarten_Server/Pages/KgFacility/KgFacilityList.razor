@@ -1,0 +1,24 @@
+﻿@page "/kg-facility"
+@using Models
+@using Business.Repository.IRepository
+@*@inject IKgFacilityRepository kgFacilityRepository*@
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+
+
+
+<div class="row mt-4">
+    <div class="col-6">
+        <h4 class="card-title text-info">Kindergarten Facility List</h4>
+    </div>
+    <div class="col-5 offset-1">
+        <NavLink href="@($"kg-facility/create")" class="btn btn-info form-control">Add New Facility </NavLink>
+    </div>
+</div>
+
+
+
+@code {
+
+}

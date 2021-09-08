@@ -18,7 +18,7 @@ namespace Business.Mapper
 
             CreateMap<KidImage, KidImageDTO>().ReverseMap();
 
-            CreateMap<KgFacility, KgFacilityDTO>();
+            CreateMap<KgFacility, KgFacilityDTO>().ReverseMap();
         }
     }
 }

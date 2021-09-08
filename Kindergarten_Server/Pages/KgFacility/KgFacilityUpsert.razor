@@ -1,0 +1,121 @@
+﻿@page "/kg-facility/create"
+@using Business.Repository.IRepository
+@using Models
+@inject IKgFacilityRepository KgFacilityRepository
+@inject NavigationManager NavigationManager
+@inject IJSRuntime jsRuntime
+@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+
+
+<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">@Title Kindergarten Facility</h3>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="KgFacilityModel" OnValidSubmit="HandleKgFacilityCreate">
+                    <DataAnnotationsValidator />
+                    <div class="form-group">
+                        <label>Name</label>
+                        <InputText @bind-Value="KgFacilityModel.Name" class="form-control"></InputText>
+                        <ValidationMessage For="()=>KgFacilityModel.Name"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <InputTextArea @bind-Value="KgFacilityModel.Description" class="form-control"></InputTextArea>
+                        <ValidationMessage For="()=>KgFacilityModel.Description"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon Style</label>
+                        <InputText @bind-Value="KgFacilityModel.IconStyle" class="form-control"></InputText>
+                        <ValidationMessage For="()=>KgFacilityModel.IconStyle"></ValidationMessage>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary"> @Title Facility </button>
+                        <NavLink href="@($"kg-facility")" class="btn btn-secondary">Back to Index </NavLink>
+                    </div>
+
+                </EditForm>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    internal KgFacilityDTO KgFacilityModel { get; set; } = new KgFacilityDTO();
+
+    internal string Title { get; set; } = "Create";
+
+    internal bool IsProcessingStart { get; set; } = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            //we work with update
+            Title = "Update";
+
+            KgFacilityModel = await KgFacilityRepository.GetKgFacility(Id.Value);
+        }
+        else
+        {
+            KgFacilityModel = new KgFacilityDTO();
+        }
+    }
+
+
+    internal async Task HandleKgFacilityCreate()
+    {
+        try
+        {
+            IsProcessingStart = true;
+
+            if (KgFacilityModel.Id != 0 && Title == "Update")
+            {
+                var facilityDetailsByName = await KgFacilityRepository.IsKgFacilityUnique(KgFacilityModel.Name);
+                if (facilityDetailsByName != null && facilityDetailsByName.Id != KgFacilityModel.Id)
+                {
+                    await jsRuntime.ToastrError("This Facility already exists.");
+                    return;
+                }
+                //Update the kindergarten facility here
+                var updateKgFacilityResult = await KgFacilityRepository.UpdateKgFacility(KgFacilityModel.Id, KgFacilityModel);
+
+                await jsRuntime.ToastrSuccess("Kindergarten Facility updated successfully.");
+            }
+            else
+            {
+
+                var facilityDetailsByName = await KgFacilityRepository.IsKgFacilityUnique(KgFacilityModel.Name);
+                if (facilityDetailsByName != null)
+                {
+                    await jsRuntime.ToastrError("Kindergarten Facility name already exists.");
+                }
+
+
+                //Create new Kindergarten Facility here
+                var createdResult = await KgFacilityRepository.CreateKgFacility(KgFacilityModel);
+                KgFacilityModel = new KgFacilityDTO();
+                await jsRuntime.ToastrSuccess("Kindergarten Facility created successfully.");
+
+            }
+            NavigationManager.NavigateTo("kg-facility");
+            IsProcessingStart = false;
+
+        }
+        catch (Exception e)
+        {
+            IsProcessingStart = false;
+        }
+    }
+
+}

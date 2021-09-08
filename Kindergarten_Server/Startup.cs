@@ -45,6 +45,7 @@ namespace Kindergarten_Server
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
+            services.AddScoped<IKgFacilityRepository, KgFacilityRepository>();
             services.AddScoped<IFileUpload, FileUpload>();
             services.AddScoped<IDbInitializer, DbInitializer>();
 
