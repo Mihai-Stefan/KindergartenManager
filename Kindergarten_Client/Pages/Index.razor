@@ -1,6 +1,60 @@
 ﻿@page "/"
+@using Models
+@using Kindergarten_Client.Service.IService
+@inject IKgFacilityService kgFacilityService
 
-<h3>Index</h3>
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+
+
+
+
+@if (IsProcessing)
+{
+    <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
+        <img src="images/loading.gif" />
+    </div>}
 
 <KidsCarousel />
 
+<hr />
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 text-center">
+            <h2 class="text-warning">Our Kindergarten Facilities</h2>
+            <p class="lead">Kindergarten with a lot of facilityes, a heaven for kids.</p>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var facility in KgFacilities)
+        {
+            <div class="col-md-4 col-6 p-4">
+                <div style="border:1px solid #d5d5d5; border-radius:20px;">
+                    <div class="row col-4 offset-4 p-4">
+                        <i class="@facility.IconStyle fa-4x"></i>
+                    </div>
+                    <div class="text-center justify-content-center">
+                        <h5 class="text-warning">@facility.Name</h5>
+                        <p>@facility.Description</p>
+                    </div>
+
+                </div>
+            </div>}
+    </div>
+
+</div>
+
+
+
+@code {
+    //public HomeVM HomeModel { get; set; } = new HomeVM();
+    public IEnumerable<KgFacilityDTO> KgFacilities { get; set; } = new List<KgFacilityDTO>();
+    public bool IsProcessing { get; set; } = false;
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+        KgFacilities = await kgFacilityService.GetKgFacilities();
+        IsProcessing = false;
+    }
+
+}

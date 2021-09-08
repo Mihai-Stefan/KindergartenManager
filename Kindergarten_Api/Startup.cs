@@ -70,6 +70,7 @@ namespace Kindergarten_Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
+            services.AddScoped<IKgFacilityRepository, KgFacilityRepository>();
 
             //Enable CORS:
             services.AddCors(o => o.AddPolicy("Kindergarten", builder =>

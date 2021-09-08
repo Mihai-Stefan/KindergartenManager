@@ -5,6 +5,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Radzen;
+using Kindergarten_Client.Service.IService;
+using Kindergarten_Client.Service;
 
 namespace Kindergarten_Client
 {
@@ -18,6 +20,7 @@ namespace Kindergarten_Client
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44330/api/") });
             builder.Services.AddScoped<IKidHttpRepository, KidHttpRepository>();
+            builder.Services.AddScoped<IKgFacilityService, KgFacilityService>();
 
             await builder.Build().RunAsync();
         }

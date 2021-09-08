@@ -40,7 +40,7 @@ namespace Business.Repository
         }
 
 
-        public async Task<IEnumerable<KgFacilityDTO>> GetAllKgFacilitys()
+        public async Task<IEnumerable<KgFacilityDTO>> GetAllKgFacilities()
         {
             return _mapper.Map<IEnumerable<KgFacility>, IEnumerable<KgFacilityDTO>>(await _context.KgFacilities.ToListAsync());
         }

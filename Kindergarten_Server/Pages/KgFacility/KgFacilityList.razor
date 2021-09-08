@@ -24,6 +24,7 @@
                     <th>Facility Name</th>
                     <th>Facility Details</th>
                     <th>Icon Style</th>
+
                     <th></th>
                 </tr>
             </thead>
@@ -36,7 +37,7 @@
                 <tr>
                     <td>@facility.Name</td>
                     <td>@facility.Description</td>
-                    <td>@facility.IconStyle</td>
+                    <td><i class="@facility.IconStyle"></i></td>
                     <td></td>
                 </tr>
                     }
@@ -64,7 +65,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        KgFacilities = await KgFacilityRepository.GetAllKgFacilitys();
+        KgFacilities = await KgFacilityRepository.GetAllKgFacilities();
     }
 
 

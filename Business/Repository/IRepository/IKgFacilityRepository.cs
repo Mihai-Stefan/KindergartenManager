@@ -17,7 +17,7 @@ namespace Business.Repository.IRepository
 
         public Task<int> DeleteKgFacility(int KgFacilityId);
 
-        public Task<IEnumerable<KgFacilityDTO>> GetAllKgFacilitys();
+        public Task<IEnumerable<KgFacilityDTO>> GetAllKgFacilities();
 
         public Task<KgFacilityDTO> IsKgFacilityUnique(string name);
     }
