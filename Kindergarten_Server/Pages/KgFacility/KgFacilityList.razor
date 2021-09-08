@@ -1,9 +1,8 @@
 ﻿@page "/kg-facility"
 @using Models
 @using Business.Repository.IRepository
-@*@inject IKgFacilityRepository kgFacilityRepository*@
+@inject IKgFacilityRepository KgFacilityRepository
 @inject IJSRuntime JsRuntime
-@inject NavigationManager NavigationManager
 @*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
 
 
@@ -17,8 +16,56 @@
     </div>
 </div>
 
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Facility Name</th>
+                    <th>Facility Details</th>
+                    <th>Icon Style</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (KgFacilities.Any())
+                {
+                    foreach (var facility in KgFacilities)
+                    {
+                <tr>
+                    <td>@facility.Name</td>
+                    <td>@facility.Description</td>
+                    <td>@facility.IconStyle</td>
+                    <td></td>
+                </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+</div>
+
 
 
 @code {
+    //retreive all facilities when page is initialized
+    private IEnumerable<KgFacilityDTO> KgFacilities { get; set; } = new List<KgFacilityDTO>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        KgFacilities = await KgFacilityRepository.GetAllKgFacilitys();
+    }
+
 
 }
