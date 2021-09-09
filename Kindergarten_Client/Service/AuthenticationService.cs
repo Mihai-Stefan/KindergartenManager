@@ -56,6 +56,7 @@ namespace Kindergarten_Client.Service
         {
             await _localStorage.RemoveItemAsync(SD.Local_Token);
             await _localStorage.RemoveItemAsync(SD.Local_UserDetails);
+            ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
             _client.DefaultRequestHeaders.Authorization = null;
         }
 

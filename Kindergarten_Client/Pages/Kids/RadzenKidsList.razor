@@ -1,6 +1,11 @@
 ﻿@page "/radzen-list"
 
 @using DataAccess.Data
+@using Microsoft.AspNetCore.Authorization
+@using Common
+@*@attribute [Authorize(Roles = SD.Role_Visitor)]*@
+@attribute [Authorize(Roles = SD.Role_Employee)]
+
 
 <h3>Radzen Kids List</h3>
 

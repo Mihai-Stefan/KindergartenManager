@@ -1,5 +1,5 @@
-﻿<h3>RedirectTiLogin</h3>
-
-@code {
-
-}
+﻿@if (notAuthorized)
+{
+<div>
+    <p>You do not have access to the requested page</p>
+</div>}
