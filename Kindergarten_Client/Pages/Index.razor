@@ -2,7 +2,7 @@
 @using Models
 @using Kindergarten_Client.Service.IService
 @inject IKgFacilityService kgFacilityService
-
+@*@inject ILocalStorageService localStorage*@
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
 
@@ -15,10 +15,23 @@
     <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
         <img src="images/loading.gif" width="10" />
     </div>}
+@*else
+{
+    <AuthorizeView>
+        <Authorized>
+            <p>You are authorized as: @context.User.Identity.Name</p>
+        </Authorized>
+
+        <NotAuthorized>
+            <p>You are NOT signed in!</p>
+        </NotAuthorized>
+    </AuthorizeView>
+}*@
+
+
 
 
 <div class="container-fluid pt-4 bg-black text-white">
-
 
     <div class="row">
         <div class="col-md-8 offset-md-2 text-center">

@@ -11,5 +11,8 @@ namespace Common
         public const string Role_Admin = "Admin"; 
         public const string Role_Employee = "Employee";
         public const string Role_Visitor = "Visitor";
+        public const string Local_UserDetails = "User Details";
+
+        public const string Local_Token = "JWT Token";
     }
 }
