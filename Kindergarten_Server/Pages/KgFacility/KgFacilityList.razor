@@ -3,6 +3,7 @@
 @using Business.Repository.IRepository
 @inject IKgFacilityRepository KgFacilityRepository
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
 @*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
 
 
@@ -34,12 +35,15 @@
                 {
                     foreach (var facility in KgFacilities)
                     {
-                <tr>
-                    <td>@facility.Name</td>
-                    <td>@facility.Description</td>
-                    <td><i class="@facility.IconStyle"></i></td>
-                    <td></td>
-                </tr>
+                        <tr>
+                            <td>@facility.Name</td>
+                            <td>@facility.Description</td>
+                            <td><i class="@facility.IconStyle"></i></td>
+                            <td>
+                                <NavLink href="@($"kg-facility/edit/{facility.Id}")" class="btn btn-primary">Edit</NavLink>
+                                <button class="btn btn-danger" @onclick="() => HandleDelete(facility.Id)">Delete</button>
+                            </td>
+                        </tr>
                     }
                 }
                 else
@@ -57,16 +61,47 @@
 
 </div>
 
+<DeleteConfirmation IsParentComponentProcessing="IsProcessing" ConfirmationChanged="ConfirmDelete_Click"></DeleteConfirmation>
 
 
 @code {
     //retreive all facilities when page is initialized
     private IEnumerable<KgFacilityDTO> KgFacilities { get; set; } = new List<KgFacilityDTO>();
+    internal int? DeleteFacilityId { get; set; } = null;
+    private bool IsProcessing { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         KgFacilities = await KgFacilityRepository.GetAllKgFacilities();
     }
 
+
+    public async Task HandleDelete(int facilityId)
+    {
+        DeleteFacilityId = facilityId;
+        await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsProcessing = true;
+        if (isConfirmed && DeleteFacilityId != null)
+        {
+            try
+            {
+                var result = await KgFacilityRepository.DeleteKgFacility(DeleteFacilityId.Value);
+                await JsRuntime.ToastrSuccess("Facility Deleted successfully");
+            }
+            catch (Exception e)
+            {
+                await JsRuntime.ToastrError(e.Message);
+            }
+            KgFacilities = await KgFacilityRepository.GetAllKgFacilities();
+
+        }
+
+        await JsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        IsProcessing = false;
+    }
 
 }
