@@ -34,15 +34,9 @@ namespace Business.Repository
         }
 
 
-        public async Task<int> DeleteKgFacility(int KgFacilityId)
+        public Task<int> DeleteKgFacility(int KgFacilityId)
         {
-            var facilityDetails = await _context.KgFacilities.FindAsync(KgFacilityId);
-            if (facilityDetails != null)
-            {
-                _context.KgFacilities.Remove(facilityDetails);
-                return await _context.SaveChangesAsync();
-            }
-            return 0;
+            throw new NotImplementedException();
         }
 
 
