@@ -165,7 +165,7 @@
                         {
                             var imageName = deletedImageName.Replace($"{NavigationManager.BaseUri}KidImages/", "");
 
-                            var result = FileUpload.DeleteFile(imageName);
+                            var result = FileUpload.DeleteFile(imageName, "KidImages");
                             await KidImageRepository.DeleteKidImageByImageUrl(deletedImageName);
                         }
                     }
@@ -215,7 +215,7 @@
                         fileInfo.Extension.ToLower() == ".png" ||
                         fileInfo.Extension.ToLower() == ".jpeg")
                     {
-                        var uploadedImagePath = await FileUpload.UploadFile(file);
+                        var uploadedImagePath = await FileUpload.UploadFile(file, "KidImages");
                         images.Add(uploadedImagePath);
                     }
                     else
@@ -278,7 +278,7 @@
             var imageName = imageUrl.Replace($"{NavigationManager.BaseUri}KidImages/", "");
             if (KidModel.Id == 0 && Title == "Create")
             {
-                var result = FileUpload.DeleteFile(imageName);
+                var result = FileUpload.DeleteFile(imageName, "KidImages");
             }
             else
             {

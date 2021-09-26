@@ -5,7 +5,7 @@
 @inject IJSRuntime JsRuntime
 @inject Kindergarten_Server.Service.IService.IFileUpload FileUpload
 @inject NavigationManager NavigationManager
-@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 <div class="row mt-4">
     <div class="col-8">
@@ -92,7 +92,7 @@
             foreach (var image in kid.KidImages)
             {
                 var imageName = image.KidImageUrl.Replace($"KidImages/", "");
-                FileUpload.DeleteFile(imageName);
+                FileUpload.DeleteFile(imageName, "KidImages");
             }
 
             await KidRepository.DeleteKid(DeleteKidId.Value);
