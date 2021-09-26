@@ -21,11 +21,11 @@ namespace Kindergarten_Server.Service
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public bool DeleteFile(string fileName)
+        public bool DeleteFile(string fileName, string relFolder)
         {
             try
             {
-                var path = $"{_webHostEnvironment.WebRootPath}\\KidImages\\{fileName}";
+                var path = $"{_webHostEnvironment.WebRootPath}\\{relFolder}\\{fileName}";
                 if (File.Exists(path))
                 {
                     File.Delete(path);
@@ -40,14 +40,18 @@ namespace Kindergarten_Server.Service
         }
 
 
-        public async Task<string> UploadFile(IBrowserFile file)
+        public async Task<string> UploadFile(IBrowserFile file, string relFolder)
         {
             try
             {
                 FileInfo fileInfo = new FileInfo(file.Name);
                 var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-                var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\KidImages";
-                var path = Path.Combine(_webHostEnvironment.WebRootPath, "KidImages", fileName);
+                if (relFolder == "Worksheets")
+                {
+                    fileName = file.Name;
+                }
+                var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\{relFolder}";
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, relFolder, fileName);
 
                 var memoryStream = new MemoryStream();
                 await file.OpenReadStream().CopyToAsync(memoryStream);
@@ -62,7 +66,7 @@ namespace Kindergarten_Server.Service
                     memoryStream.WriteTo(fs);
                 }
                 var url = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}/";
-                var fullPath = $"{url}KidImages/{fileName}";
+                var fullPath = $"{url}{relFolder}/{fileName}";
                 return fullPath;
             }
             catch (Exception ex)

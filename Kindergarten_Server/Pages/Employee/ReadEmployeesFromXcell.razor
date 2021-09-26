@@ -1,0 +1,89 @@
+﻿@page "/importdata"
+@using Models
+@using Kindergarten_Server.Service.IService
+@using System.IO;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime jsRuntime
+@inject IJSRuntime JsRuntime
+@inject IFileUpload FileUpload
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
+
+
+<h3>Read Employees From Excell File</h3>
+
+<div class="form-group" style="padding-top:70px;">
+    <InputFile OnChange="ReadExcell" multiple></InputFile>
+</div>
+
+@*<button class="btn btn-primary mt-4 mb-3" @onclick="ReadExcell">Read Excell</button>*@
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            @*<th>ID</th>*@
+            <th>FIRST NAME</th>
+            <th>LAST NAME</th>
+            <th>DETAILS</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in employees)
+        {
+            <tr>
+                <td>@employee.FirstName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.Details</td>
+                @*<td></td>*@
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<button class="btn btn-primary mt-4 mb-3" @onclick="UploadEmployees">Add to Database</button>
+
+
+
+@code {
+    EmployeeDTO employee = new EmployeeDTO();
+    List<EmployeeDTO> employees = new List<EmployeeDTO>();
+
+    private bool IsFileUploadProcessStarted { get; set; } = false;
+
+
+
+    private async Task ReadExcell(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+        if (fileInfo.Extension.ToLower() == ".xlsx")
+        {
+            var uploadedFilePath = await FileUpload.UploadFile(file, "Worksheets");
+
+
+            string rootFolder = @".\wwwroot\Worksheets";
+
+            FileInfo xfile = new FileInfo(Path.Combine(rootFolder, fileInfo.Name));
+
+            employees = employee.ReadExcell(xfile.FullName);
+
+            var fileWasDeleted = FileUpload.DeleteFile(file.Name, "Worksheets");
+
+        }
+        else
+        {
+            await JsRuntime.ToastrError("Please select Excell .xlsx file only");
+            return;
+        }
+
+    }
+
+
+
+
+    private async void UploadEmployees()
+    {
+        await jsRuntime.ToastrError("Not yet implemented.");
+    }
+
+}

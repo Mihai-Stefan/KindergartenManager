@@ -8,8 +8,8 @@ namespace Kindergarten_Server.Service.IService
 {
     public interface IFileUpload
     {
-        Task<string> UploadFile(IBrowserFile file);
+        Task<string> UploadFile(IBrowserFile file, string relFolder);
 
-        bool DeleteFile(string fileName);
+        bool DeleteFile(string fileName, string relFolder);
     }
 }

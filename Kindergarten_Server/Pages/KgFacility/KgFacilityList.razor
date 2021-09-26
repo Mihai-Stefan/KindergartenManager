@@ -3,7 +3,8 @@
 @using Business.Repository.IRepository
 @inject IKgFacilityRepository KgFacilityRepository
 @inject IJSRuntime JsRuntime
-@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 
 
