@@ -102,13 +102,12 @@
                     await jsRuntime.ToastrError("Kindergarten Facility name already exists.");
                 }
 
-
                 //Create new Kindergarten Facility here
                 var createdResult = await KgFacilityRepository.CreateKgFacility(KgFacilityModel);
                 KgFacilityModel = new KgFacilityDTO();
                 await jsRuntime.ToastrSuccess("Kindergarten Facility created successfully.");
-
             }
+
             NavigationManager.NavigateTo("kg-facility");
             IsProcessingStart = false;
 

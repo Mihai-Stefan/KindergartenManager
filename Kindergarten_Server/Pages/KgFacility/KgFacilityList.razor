@@ -40,8 +40,8 @@
                             <td>@facility.Description</td>
                             <td><i class="@facility.IconStyle"></i></td>
                             <td>
-                                <NavLink href="@($"kg-facility/edit/{facility.Id}")" class="btn btn-primary">Edit</NavLink>
-                                <button class="btn btn-danger" @onclick="() => HandleDelete(facility.Id)">Delete</button>
+                                <NavLink href="@($"kg-facility/edit/{facility.Id}")" class="btn btn-primary m-2 btn-sm custom">Edit</NavLink>
+                                <button class="btn btn-danger m-2 btn-sm custom" @onclick="() => HandleDelete(facility.Id)">Delete</button>
                             </td>
                         </tr>
                     }

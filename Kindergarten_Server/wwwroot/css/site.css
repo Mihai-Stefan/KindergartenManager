@@ -129,3 +129,7 @@ a, .btn-link {
     padding: 0px 6px;
     display: inline-block
 }
+
+.custom {
+    width: 60px;
+}

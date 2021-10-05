@@ -18,8 +18,6 @@ namespace Models
         {
             List<EmployeeDTO> employees = new List<EmployeeDTO>();
 
-            //FilePath = "./wwwroot/Worksheets/f7e249a4-d9f8-4375-bc71-a6b5db25a354.xlsx";
-            //string FilePath = "C:/___CODE/_c_Sharp_Learn_projects/51_BlazorServerImportFromXcell/helping_files/Employees.xlsx";
             FileInfo existingFile = new FileInfo(filePath);
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (ExcelPackage package = new ExcelPackage(existingFile))

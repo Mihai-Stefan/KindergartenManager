@@ -36,9 +36,9 @@
                             <td>@kid.FullName</td>
                             <td>@kid.Details</td>
 
-                            <td>
-                                <NavLink href="@($"kg-kid/edit/{kid.Id}")" class="btn btn-primary">Edit</NavLink>
-                                <button class="btn btn-danger" @onclick="()=>HandleDelete(kid.Id)">Delete</button>
+                            <td width="200px" align="center">
+                                <NavLink href="@($"kg-kid/edit/{kid.Id}")"  class="btn btn-primary m-2 btn-sm custom" >Edit</NavLink>
+                                <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(kid.Id)">Delete</button>
                             </td>
 
                         </tr>
