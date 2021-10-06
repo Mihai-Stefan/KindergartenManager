@@ -26,10 +26,22 @@
                         <InputTextArea @bind-Value="KgFacilityModel.Description" class="form-control"></InputTextArea>
                         <ValidationMessage For="()=>KgFacilityModel.Description"></ValidationMessage>
                     </div>
+
                     <div class="form-group">
                         <label>Icon Style</label>
-                        <InputText @bind-Value="KgFacilityModel.IconStyle" class="form-control"></InputText>
-                        <ValidationMessage For="()=>KgFacilityModel.IconStyle"></ValidationMessage>
+                        @*<InputText @bind-Value="KgFacilityModel.IconStyle" class="form-control"></InputText>
+                         <ValidationMessage For="()=>KgFacilityModel.IconStyle"></ValidationMessage>*@
+                    <InputSelect @bind-Value="KgFacilityModel.IconStyle" class="form-control">
+                        @*<option value="fas fa-theater-masks"> <i class="fas fa-theater-masks"></i>Theater</option>*@
+
+
+                        @foreach (var icon in Icons)
+                        {
+                            <option value="@icon.Value">@icon.Key</option>
+                        }
+
+                    </InputSelect>
+
                     </div>
 
                     <div class="form-group">
@@ -37,7 +49,10 @@
                         <NavLink href="@($"kg-facility")" class="btn btn-secondary">Back to Index </NavLink>
                     </div>
 
+
+
                 </EditForm>
+
 
 
             </div>
@@ -117,5 +132,16 @@
             IsProcessingStart = false;
         }
     }
+
+    // AwesomeFonts Icons
+
+    Dictionary<string, string> Icons = new Dictionary<string, string>(){
+    {"Theater", "fas fa-theater-masks"},
+    {"Kitchen", "fas fa-hamburger"},
+    {"Medic", "fas fa-briefcase-medical"},
+    {"Bus", "fas fa-shuttle-van"},
+    {"Swimming", "fas fa-swimmer"},
+    {"Laptop", "fas fa-laptop"}
+};
 
 }
