@@ -1,0 +1,63 @@
+﻿@page "/kg-employee"
+@using Models
+@using Business.Repository.IRepository
+@inject IEmployeeRepository EmployeeRepository
+@inject IJSRuntime JsRuntime
+@inject Kindergarten_Server.Service.IService.IFileUpload FileUpload
+@inject NavigationManager NavigationManager
+@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+
+<div class="row mt-4">
+    <div class="col-8">
+        <h4 class="card-title text-info">Kindergarten Teachers</h4>
+    </div>
+    <div class="col-3 offset-1">
+        <NavLink href="kg-employee/create" class="btn btn-info form-control">Add New Teacher</NavLink>
+    </div>
+</div>
+
+
+@*the teachers/employees table*@
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Details</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Employees.Any())
+                {
+                    foreach (var employee in Employees)
+                    {
+                        <tr>
+                            <td>@employee.FullName</td>
+                            <td>@employee.Details</td>
+
+                            <td width="200px" align="center">
+                                <NavLink href="@($"kg-employee/edit/{employee.Id}")" class="btn btn-primary m-2 btn-sm custom">Edit</NavLink>
+                                <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(employee.Id)">Delete</button>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@code {
+
+}

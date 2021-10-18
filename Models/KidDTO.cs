@@ -10,6 +10,7 @@ namespace Models
     public class KidDTO
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage ="Please enter first name")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Please enter last name")]

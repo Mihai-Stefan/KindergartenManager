@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataAccess.Data;
+using DatabaseAccess.Data;
 using Models;
 
 namespace Business.Mapper
@@ -14,6 +15,8 @@ namespace Business.Mapper
             CreateMap<KidImage, KidImageDTO>().ReverseMap();
 
             CreateMap<KgFacility, KgFacilityDTO>().ReverseMap();
+
+            CreateMap<Employee, EmployeeDTO>().ReverseMap();
         }
     }
 }

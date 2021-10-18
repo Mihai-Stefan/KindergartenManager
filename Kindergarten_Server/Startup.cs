@@ -46,6 +46,7 @@ namespace Kindergarten_Server
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
             services.AddScoped<IKgFacilityRepository, KgFacilityRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IFileUpload, FileUpload>();
             services.AddScoped<IDbInitializer, DbInitializer>();
 

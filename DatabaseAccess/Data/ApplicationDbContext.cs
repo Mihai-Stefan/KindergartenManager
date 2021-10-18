@@ -19,6 +19,9 @@ namespace DataAccess.Data
         public DbSet<Kid> Kids { get; set; }
         public DbSet<KidImage> KidImages { get; set; }
         public DbSet<KidParent> KidParents { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<KgFacility> KgFacilities { get; set; }
