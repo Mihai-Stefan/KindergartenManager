@@ -56,8 +56,46 @@
     </div>
 </div>
 
+<DeleteConfirmation IsParentComponentProcessing="IsProcessing" ConfirmationChanged="ConfirmDelete_Click"></DeleteConfirmation>
+
+
 
 
 @code {
+    private IEnumerable<EmployeeDTO> Employees { get; set; } = new List<EmployeeDTO>();
+    private int? DeleteEmployeeId { get; set; } = null;
+    private bool IsProcessing { get; set; } = false;
 
-}
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = await EmployeeRepository.GetAllEmployees();
+    }
+
+
+
+    private async Task HandleDelete(int employeeId)
+    {
+        DeleteEmployeeId = employeeId;
+        await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+
+    }
+
+
+
+    public async Task ConfirmDelete_Click(bool isConfirmed)
+    {
+        IsProcessing = true;
+        if (isConfirmed && DeleteEmployeeId != null)
+        {
+            EmployeeDTO employee = await EmployeeRepository.GetEmployee(DeleteEmployeeId.Value);
+
+            await EmployeeRepository.DeleteEmployee(DeleteEmployeeId.Value);
+            await JsRuntime.ToastrSuccess("Teacher data Deleted successfully");
+            Employees = await EmployeeRepository.GetAllEmployees();
+        }
+        await JsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+        IsProcessing = false;
+    } }
+
