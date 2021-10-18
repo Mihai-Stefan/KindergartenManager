@@ -6,8 +6,7 @@
 @*@attribute [Authorize(Roles = SD.Role_Visitor)]*@
 @attribute [Authorize(Roles = SD.Role_Employee)]
 
-
-<h3>Radzen Kids List</h3>
+@*<h3>Radzen Kids List</h3>*@
 
 @if (KidList == null)
 {
@@ -15,7 +14,9 @@
 }
 else
 {
-    <div class="container">
+    <h3 class="m-4 text-black">Kids List</h3>
+    <div class="container p-4 bg-gradient text-white">
+
         <RadzenDataGrid AllowPaging="true"
                         AllowFiltering="true"
                         AllowColumnResize="true"
@@ -30,7 +31,6 @@ else
                 <RadzenDataGridColumn TItem="Kid" Property="LastName" Title="Last Name" Width="12%"></RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Kid" Property="Details" Title="Details"></RadzenDataGridColumn>
 
-
             </Columns>
         </RadzenDataGrid>
     </div>
@@ -38,3 +38,9 @@ else
 
 
 
+@code{
+    internal Task AddNotes()
+    {
+        return null;
+    }
+}

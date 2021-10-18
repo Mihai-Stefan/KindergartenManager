@@ -34,7 +34,6 @@
                     <InputSelect @bind-Value="KgFacilityModel.IconStyle" class="form-control">
                         @*<option value="fas fa-theater-masks"> <i class="fas fa-theater-masks"></i>Theater</option>*@
 
-
                         @foreach (var icon in Icons)
                         {
                             <option value="@icon.Value">@icon.Key</option>
@@ -141,7 +140,9 @@
     {"Medic", "fas fa-briefcase-medical"},
     {"Bus", "fas fa-shuttle-van"},
     {"Swimming", "fas fa-swimmer"},
-    {"Laptop", "fas fa-laptop"}
+    {"Laptop", "fas fa-laptop"},
+    {"Joker-circle", "fas fa-circle"},
+    {"Joker-sun", "fas fa-sun"}
     };
 
 }

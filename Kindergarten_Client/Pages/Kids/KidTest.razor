@@ -1,0 +1,42 @@
+﻿@page "/my-test-page"
+
+
+<div class="container-fluid  p-4 bg-primary text-white">
+    <h3 style="color:lightblue">Kid Notes Test</h3>
+
+    <div class=" container row">
+        @foreach (var note in Notes)
+        {
+            <div class="col-md-6 p-4">
+                <div style="border:1px solid #d5d5d5; border-radius:20px;">
+                    <div class="text-center justify-content-center">
+                        <h5 class="text-warning m-4" style="border:1px solid #d5d5d5; border-radius:5px; ">@note.Key</h5>
+                        <p class="text-start justify-content-evenly m-lg-4">@note.Value</p>
+                    </div>
+                    <div class="text-center justify-content-center mb-2">
+                        <button class="btn btn-sm btn-warning">Edit</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </div>
+
+                </div>
+            </div>}
+    </div>
+
+</div>
+
+
+
+
+@code {
+
+
+    Dictionary<string, string> Notes = new Dictionary<string, string>(){
+    {"Notes-1", "About this kid. He is a good kid, pay atention in the class. Very polite."},
+    {"Notes-2", "Quam quisque id diam vel quam elementum pulvinar etiam. Ornare aenean euismod elementum nisi quis eleifend quam adipiscing. Egestas integer eget aliquet nibh praesent. "},
+    {"Notes-3", "Tincidunt lobortis feugiat vivamus at augue eget. Ultricies integer quis auctor elit sed vulputate mi sit amet."},
+    {"Notes-4", "Etiam sit amet nisl purus in. Mattis vulputate enim nulla aliquet porttitor lacus. Sociis natoque penatibus et magnis dis parturient montes nascetur. "},
+    {"Notes-5", "Malesuada nunc vel risus commodo viverra."},
+    {"Notes-6", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla pellentesque dignissim enim sit amet venenatis. In fermentum et sollicitudin ac orci phasellus egestas tellus rutrum. Massa id neque aliquam vestibulum morbi blandit cursus risus at. "}
+    };
+
+}
