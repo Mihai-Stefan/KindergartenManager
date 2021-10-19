@@ -1,0 +1,129 @@
+﻿
+@page "/kg-employee/create"
+@page "/kg-employee/edit/{Id:int}"
+@using Models
+@using Business.Repository.IRepository
+@using Kindergarten_Server.Service.IService
+@inject IEmployeeRepository EmployeeRepository
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IFileUpload FileUpload
+@*@attribute [Authorize(Roles = Common.SD.Role_Admin)]*@
+
+
+<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">@Title Employee</h3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@EmployeeModel" OnValidSubmit="HandleEmployeeUpsert">
+                    <DataAnnotationsValidator />
+                    @*<ValidationSummary />*@
+                    <div class="form-group">
+                        <label>FirstName</label>
+                        <InputText @bind-Value="EmployeeModel.FirstName" class="form-control"></InputText>
+                        <ValidationMessage For="() => EmployeeModel.FirstName" />
+                    </div>
+                    <div class="form-group">
+                        <label>LastName</label>
+                        <InputText @bind-Value="EmployeeModel.LastName" class="form-control"></InputText>
+                        <ValidationMessage For="() => EmployeeModel.LastName" />
+                    </div>
+                    <div class="form-group">
+                        <label>Details</label>
+                        <InputTextArea @bind-Value="EmployeeModel.Details" class="form-control"></InputTextArea>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <button class="btn btn-primary">@Title Employee </button>
+                        <NavLink href="kg-employee" class="btn btn-secondary">Back to Index</NavLink>
+                    </div>
+
+                </EditForm>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    private EmployeeDTO EmployeeModel { get; set; } = new EmployeeDTO();
+    private string Title { get; set; } = "Create";
+
+    internal bool IsProcessingStart { get; set; } = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            // updating
+            Title = "Update";
+            EmployeeModel = await EmployeeRepository.GetEmployee(Id.Value);
+        }
+        else
+        {
+            // create
+            EmployeeModel = new EmployeeDTO();
+        }
+    }
+
+
+    internal async Task HandleEmployeeUpsert()
+    {
+        try
+        {
+            IsProcessingStart = true;
+
+            if (EmployeeModel.Id != 0 && Title == "Update")
+            {
+                var employeeDetailsByName = await EmployeeRepository.IsEmployeeUnique(EmployeeModel.FullName);
+                if (employeeDetailsByName != null && employeeDetailsByName.Id != EmployeeModel.Id)
+                {
+                    await JsRuntime.ToastrError("This Employee already exists.");
+                    return;
+                }
+                //Update the employee here
+                var updateEmployeeResult = await EmployeeRepository.UpdateEmployee(EmployeeModel.Id, EmployeeModel);
+
+                await JsRuntime.ToastrSuccess("Employee updated successfully.");
+            }
+            else
+            {
+
+                var employeeDetailsByName = await EmployeeRepository.IsEmployeeUnique(EmployeeModel.FullName);
+                if (employeeDetailsByName != null)
+                {
+                    await JsRuntime.ToastrError("This employee's name already exists.");
+                }
+
+                //Create new employee here
+                var createdResult = await EmployeeRepository.CreateEmployee(EmployeeModel);
+                EmployeeModel = new EmployeeDTO();
+                await JsRuntime.ToastrSuccess("Employee created successfully.");
+            }
+
+            NavigationManager.NavigateTo("kg-employee");
+            IsProcessingStart = false;
+
+        }
+        catch (Exception e)
+        {
+            IsProcessingStart = false;
+        }
+    }
+
+
+}
+
