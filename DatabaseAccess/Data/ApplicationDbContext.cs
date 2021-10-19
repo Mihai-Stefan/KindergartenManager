@@ -25,5 +25,7 @@ namespace DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public DbSet<KgFacility> KgFacilities { get; set; }
+
+        public DbSet<KidComment> KidComments { get; set; }
     }
 }
