@@ -11,7 +11,7 @@ namespace Business.Repository.IRepository
     {
         public Task<KgFacilityDTO> CreateKgFacility(KgFacilityDTO kgFacility);
 
-        public Task<KgFacilityDTO> UpdateKgFacility(int KgFacilityId, KgFacilityDTO kgFacilit);
+        public Task<KgFacilityDTO> UpdateKgFacility(int KgFacilityId, KgFacilityDTO kgFacility);
 
         public Task<KgFacilityDTO> GetKgFacility(int KgFacilityId);
 

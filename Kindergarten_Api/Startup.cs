@@ -71,20 +71,13 @@ namespace Kindergarten_Api
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IKidImageRepository, KidImageRepository>();
             services.AddScoped<IKgFacilityRepository, KgFacilityRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
             //Enable CORS:
             services.AddCors(o => o.AddPolicy("Kindergarten", builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
-
-            //services.AddCors(policy =>
-            //{
-            //    policy.AddPolicy("CorsPolicy", opt => opt
-            //        .AllowAnyOrigin()
-            //        .AllowAnyHeader()
-            //        .AllowAnyMethod());
-            //});
 
 
 
