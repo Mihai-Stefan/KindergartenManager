@@ -18,6 +18,21 @@ namespace Kindergarten_Client.HttpRepository
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
+        public async Task<Kid> GetKid(int kidId)
+        {
+            var response = await _client.GetAsync($"kid/{kidId}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var kid = JsonSerializer.Deserialize<Kid>(content, _options);
+            return kid;
+        }
+
+
+
         public async Task<List<Kid>> GetKids()
         {
             var response = await _client.GetAsync("kid");

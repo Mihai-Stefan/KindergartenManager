@@ -13,6 +13,7 @@
                     <th scope="col">Full Name</th>
                     @*<th scope="col">LastName</th>*@
                     <th scope="col">Details</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,9 @@
                             </td>*@
                         <td class="align-middle  text-white">
                             @kid.Details
+                        </td>
+                        <td>
+                            <NavLink href="@($"kg-kid-details/{kid.Id}")" class="btn btn-primary m-2 btn-sm custom">Details</NavLink>
                         </td>
                     </tr>
                 }

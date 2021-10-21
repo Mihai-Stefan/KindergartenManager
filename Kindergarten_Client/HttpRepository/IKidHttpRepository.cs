@@ -7,5 +7,10 @@ namespace Kindergarten_Client.HttpRepository
     public interface IKidHttpRepository
     {
         Task<List<Kid>> GetKids();
+
+
+        public Task<Kid> GetKid(int kidId);
+
+
     }
 }

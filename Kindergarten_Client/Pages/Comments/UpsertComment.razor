@@ -1,0 +1,95 @@
+﻿
+@page "/comment/create/{KidId:int}"
+@page "/comment/edit/{Id:int}"
+@using Models
+@using Kindergarten_Client.HttpRepository
+@inject IJSRuntime JsRuntime
+
+
+<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">@Title Comment</h3>
+    <div class="col-md-12">
+        <div class="card bg-info">
+            <div class="card-body">
+                <EditForm Model="@CommentModel" OnValidSubmit="HandleCommentUpsert">
+                    <DataAnnotationsValidator />
+                    @*<ValidationSummary />*@
+                    <div class="form-group">
+                        <label>Title</label>
+                        <InputText @bind-Value="CommentModel.Title" class="form-control"></InputText>
+                        <ValidationMessage For="() => CommentModel.Title" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Content/Notes</label>
+                        <InputTextArea @bind-Value="CommentModel.Content" class="form-control"></InputTextArea>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <button class="btn btn-primary">@Title Comment </button>
+                        <NavLink href="kindergarten/kids" class="btn btn-secondary">Back</NavLink>
+                    </div>
+
+                </EditForm>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+    [Parameter]
+    public int? KidId { get; set; }
+
+    private KidCommentDTO CommentModel { get; set; } = new KidCommentDTO();
+    private string Title { get; set; } = "Create";
+
+    internal bool IsProcessingStart { get; set; } = false;
+
+    [Inject]
+    public ICommentHttpRepository CommentRepo { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            // updating
+            Title = "Update";
+
+        }
+        else
+        {
+            // create
+            CommentModel = new KidCommentDTO();
+            CommentModel.Id = 0;
+            CommentModel.KidId = KidId.Value;
+        }
+    }
+
+
+    internal async Task HandleCommentUpsert()
+    {
+        if (Title == "Create")
+        {
+
+            await CommentRepo.CreateKidComment(CommentModel);
+        }
+        else
+        {
+            // Update
+            await CommentRepo.UpdateKidComment(CommentModel.Id, CommentModel);
+        }
+    }
+
+
+}

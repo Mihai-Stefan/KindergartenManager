@@ -1,26 +1,44 @@
-﻿@page "/kindergarten/comments"
-
+﻿
+@page  "/kg-kid-details/{KidId:int}"
+@using DataAccess.Data;
 @using DatabaseAccess.Data;
 @using Kindergarten_Client.HttpRepository;
-@using System;
-@using System.Linq;
-@inject IJSRuntime JsRuntime
+@using Microsoft.AspNetCore.Components;
+@using System.Collections.Generic;
+@using System.Threading.Tasks;
 
 
-<h3>Kid Comments</h3>
 
+<div class="container">
+<h3>Kid Details:</h3>
+
+<div class="card mt-4 bg-info">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="/images/slide3.jpg" class="img-fluid img-thumbnail" />
+        </div>
+        <div class="col-md-9">
+            <h3 class="card-title mt-4">@ActualKid.FirstName @ActualKid.LastName</h3>
+            <p>@ActualKid.Details</p>
+            <NavLink href="@($"comment/create/{KidId}")" class="btn btn-primary m-2 btn-sm custom">Add Comment</NavLink>
+            <NavLink href="@($"kindergarten/kids")" class="btn btn-secondary m-2 btn-sm custom">Back to list</NavLink>
+        </div>
+
+    </div>
+
+</div>
 
 
 <div class="container-fluid  p-4 bg-primary text-white">
-    <h3 style="color:lightblue">Kid Comments Test</h3>
+    <h3 style="color:lightblue">Kid Comments:</h3>
 
     <div class=" container row">
         @foreach (var comment in CommentList)
         {
-            @*@if (comment.KidId != 8)
-                {
-                    continue;
-                }*@
+            @if (comment.KidId != ActualKid.Id)
+            {
+                continue;
+            }
             <div class="col-md-6 p-4">
                 <div style="border:1px solid #d5d5d5; border-radius:20px; background-color:blue">
                     <div class="text-center justify-content-center">
@@ -35,56 +53,42 @@
                 </div>
             </div>}
     </div>
-
+</div>
 </div>
 
 
 
 
-@code {
 
+
+@code {
+    [Parameter]
+    public int? KidId { get; set; }
 
     public List<KidComment> CommentList { get; set; } = new List<KidComment>();
     private int? DeleteCommentId { get; set; } = null;
     private bool IsProcessing { get; set; } = false;
 
+
+    public Kid ActualKid { get; set; } = new Kid();
+    [Inject]
+    public IKidHttpRepository KidRepo { get; set; }
+
     [Inject]
     public ICommentHttpRepository CommentRepo { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
+        ActualKid = await KidRepo.GetKid(KidId.Value);
         CommentList = await CommentRepo.GetComments();
     }
 
 
-    // Delete comment:
-
-    public async Task HandleDelete(int commentId)
+    protected async Task HandleDelete(int commentId)
     {
-        DeleteCommentId = commentId;
-        //await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+        await CommentRepo.DeleteKidComment(commentId);
+        CommentList = await CommentRepo.GetComments();
     }
-
-    //public async Task ConfirmDelete_Click(bool isConfirmed)
-    //{
-    //    IsProcessing = true;
-    //    if (isConfirmed && DeleteCommentId != null)
-    //    {
-    //        try
-    //        {
-    //            var result = await CommentHttpRepository.DeleteKidComment(DeleteCommenId.Value);
-    //            await JsRuntime.ToastrSuccess("Facility Deleted successfully");
-    //        }
-    //        catch (Exception e)
-    //        {
-    //            await JsRuntime.ToastrError(e.Message);
-    //        }
-    //        KgFacilities = await KgFacilityRepository.GetAllKgFacilities();
-
-    //    }
-
-    //    await JsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
-    //    IsProcessing = false;
-    //}
 
 
 

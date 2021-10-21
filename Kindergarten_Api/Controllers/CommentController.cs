@@ -70,7 +70,7 @@ namespace Kindergarten_Api.Controllers
                 return NotFound("Comment wasn't found.");
 
             await _commentRepository.DeleteKidComment(id);
-            //await _commentRepository.SaveChangesAsync();
+
 
             return Ok(await GetComments());
         }

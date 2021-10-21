@@ -1,11 +1,12 @@
 ﻿using DatabaseAccess.Data;
+using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
-using System.Linq;
 using System.Threading.Tasks;
-using Models;
 
 namespace Kindergarten_Client.HttpRepository
 {
@@ -21,9 +22,25 @@ namespace Kindergarten_Client.HttpRepository
         }
 
 
-        public Task<KidCommentDTO> CreateKidComment(KidCommentDTO kidCommentDTO)
+        // Create comment:
+        public async Task<KidCommentDTO> CreateKidComment(KidCommentDTO kidCommentDTO)
         {
-            throw new NotImplementedException();
+            var content = JsonConvert.SerializeObject(kidCommentDTO);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync($"comment/create", bodyContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<KidCommentDTO>(contentTemp);
+                return result;
+            }
+            else
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(contentTemp);
+                throw new Exception(errorModel.ErrorMessage);
+            }
         }
 
 
@@ -38,7 +55,7 @@ namespace Kindergarten_Client.HttpRepository
                 throw new ApplicationException(content);
             }
 
-            var comments = JsonSerializer.Deserialize<List<KidComment>>(content, _options);
+            var comments = System.Text.Json.JsonSerializer.Deserialize<List<KidComment>>(content, _options);
             return comments;
         }
 
@@ -55,13 +72,8 @@ namespace Kindergarten_Client.HttpRepository
 
         public async Task<int> DeleteKidComment(int kidCommentId)
         {
-            //var commentDetails = await _db.Comments.FindAsync(kidComment);
-            //if (commentDetails != null)
-            //{
-            //    _db.Comments.Remove(commentDetails);
-            //    return await _db.SaveChangesAsync();
+            var commentDetails = await _client.DeleteAsync($"comment/{kidCommentId}");
 
-            //}
             return 0;
         }
 

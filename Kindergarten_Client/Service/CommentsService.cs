@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Kindergarten_Client.Service.IService;
+using Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kindergarten_Client.Service.IService
+namespace Kindergarten_Client.Service
 {
     public class CommentsService : ICommentsService
     {
