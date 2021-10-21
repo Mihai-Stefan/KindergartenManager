@@ -1,5 +1,7 @@
 ﻿using Business.Repository.IRepository;
+using DatabaseAccess.Data;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +26,55 @@ namespace Kindergarten_Api.Controllers
             return Ok(allComments);
         }
 
-        // implement the othert methods
+        // Get single comment
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSingleComment(int id)
+        {
+            var comment = await _commentRepository.GetKidComment(id);
+            if (comment == null)
+            {
+                return NotFound("There are NO comments for this kid");
+            }
+            return Ok(comment);
+        }
+
+
+        // Create (Add) comment
+        [HttpPost]
+        public async Task<IActionResult> CreateComment(KidCommentDTO comment)
+        {
+            await _commentRepository.CreateKidComment(comment);
+
+            return Ok(await GetComments());
+        }
+
+
+        // Update comment
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateComment(int id, KidCommentDTO comment)
+        {
+            var updComment = await _commentRepository.UpdateKidComment(id, comment);
+            if (updComment == null)
+                return NotFound("Kid Comment wasn't found.");
+
+            return Ok(await GetComments());
+        }
+
+
+        // Delete comment
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var dbComment = await _commentRepository.GetKidComment(id);
+            if (dbComment == null)
+                return NotFound("Comment wasn't found.");
+
+            await _commentRepository.DeleteKidComment(id);
+            //await _commentRepository.SaveChangesAsync();
+
+            return Ok(await GetComments());
+        }
+
 
     }
 }

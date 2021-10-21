@@ -28,6 +28,7 @@ namespace Kindergarten_Client
 
             builder.Services.AddScoped<IKidHttpRepository, KidHttpRepository>();
             builder.Services.AddScoped<IKgFacilityService, KgFacilityService>();
+            builder.Services.AddScoped<ICommentHttpRepository, CommentHttpRepository>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             await builder.Build().RunAsync();

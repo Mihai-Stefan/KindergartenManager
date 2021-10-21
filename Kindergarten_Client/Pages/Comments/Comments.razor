@@ -1,0 +1,92 @@
+﻿@page "/kindergarten/comments"
+
+@using DatabaseAccess.Data;
+@using Kindergarten_Client.HttpRepository;
+@using System;
+@using System.Linq;
+@inject IJSRuntime JsRuntime
+
+
+<h3>Kid Comments</h3>
+
+
+
+<div class="container-fluid  p-4 bg-primary text-white">
+    <h3 style="color:lightblue">Kid Comments Test</h3>
+
+    <div class=" container row">
+        @foreach (var comment in CommentList)
+        {
+            @*@if (comment.KidId != 8)
+                {
+                    continue;
+                }*@
+            <div class="col-md-6 p-4">
+                <div style="border:1px solid #d5d5d5; border-radius:20px; background-color:blue">
+                    <div class="text-center justify-content-center">
+                        <h5 class="text-warning m-4" style="border:1px solid #d5d5d5; border-radius:5px; ">@comment.Title</h5>
+                        <p class="text-start justify-content-evenly m-lg-4">@comment.Content</p>
+                    </div>
+                    <div class="text-center justify-content-center mb-2">
+                        <button class="btn btn-sm btn-warning">Edit</button>
+                        <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(comment.Id)">Delete</button>
+                    </div>
+
+                </div>
+            </div>}
+    </div>
+
+</div>
+
+
+
+
+@code {
+
+
+    public List<KidComment> CommentList { get; set; } = new List<KidComment>();
+    private int? DeleteCommentId { get; set; } = null;
+    private bool IsProcessing { get; set; } = false;
+
+    [Inject]
+    public ICommentHttpRepository CommentRepo { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        CommentList = await CommentRepo.GetComments();
+    }
+
+
+    // Delete comment:
+
+    public async Task HandleDelete(int commentId)
+    {
+        DeleteCommentId = commentId;
+        await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+    }
+
+    //public async Task ConfirmDelete_Click(bool isConfirmed)
+    //{
+    //    IsProcessing = true;
+    //    if (isConfirmed && DeleteCommentId != null)
+    //    {
+    //        try
+    //        {
+    //            var result = await CommentHttpRepository.DeleteKidComment(DeleteCommenId.Value);
+    //            await JsRuntime.ToastrSuccess("Facility Deleted successfully");
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            await JsRuntime.ToastrError(e.Message);
+    //        }
+    //        KgFacilities = await KgFacilityRepository.GetAllKgFacilities();
+
+    //    }
+
+    //    await JsRuntime.InvokeVoidAsync("HideDeleteConfirmationModal");
+    //    IsProcessing = false;
+    //}
+
+
+
+
+}
