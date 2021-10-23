@@ -41,7 +41,8 @@ namespace Kindergarten_Api.Controllers
 
         // Create (Add) comment
         [HttpPost]
-        public async Task<IActionResult> CreateComment(KidCommentDTO comment)
+
+        public async Task<IActionResult> CreateComment([FromBody] KidCommentDTO comment)
         {
             await _commentRepository.CreateKidComment(comment);
 

@@ -1,47 +1,50 @@
 ﻿@page "/kindergarten/kids"
 
 
-<h3>Kids List</h3>
-
-
-@if (KidList.Count > 0)
-{
     <div class="container">
-        <table class="table table-striped table-bordered" style="margin: auto">
-            <thead class="table-primary">
-                <tr>
-                    <th scope="col">Full Name</th>
-                    @*<th scope="col">LastName</th>*@
-                    <th scope="col">Details</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var kid in KidList)
-                {
-                    <tr>
-                        <td class="align-middle text-white">
-                            @kid.FirstName  @kid.LastName
-                        </td>
-                        @*<td class="align-middle">
-                                @kid.LastName
-                            </td>*@
-                        <td class="align-middle  text-white">
-                            @kid.Details
-                        </td>
-                        <td>
-                            <NavLink href="@($"kg-kid-details/{kid.Id}")" class="btn btn-primary m-2 btn-sm custom">Details</NavLink>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-<span>
-    Loading kids...
-</span>
-}
 
+        <h3>Kids List</h3>
+
+
+        @if (KidList.Count > 0)
+        {
+            <div class="container">
+                <table class="table table-striped table-bordered" style="margin: auto">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Full Name</th>
+                            @*<th scope="col">LastName</th>*@
+                            <th scope="col">Details</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var kid in KidList)
+                        {
+                            <tr>
+                                <td class="align-middle text-white">
+                                    @kid.FirstName  @kid.LastName
+                                </td>
+                                @*<td class="align-middle">
+                                        @kid.LastName
+                                    </td>*@
+                                <td class="align-middle  text-white">
+                                    @kid.Details
+                                </td>
+                                <td>
+                                    <NavLink href="@($"kg-kid-details/{kid.Id}")" class="btn btn-primary m-2 btn-sm custom">Details</NavLink>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <span>
+                Loading kids...
+            </span>
+        }
+
+    </div>

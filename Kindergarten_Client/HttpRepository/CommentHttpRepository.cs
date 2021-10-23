@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace Kindergarten_Client.HttpRepository
         {
             var content = JsonConvert.SerializeObject(kidCommentDTO);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync($"comment/create", bodyContent);
+            var response = await _client.PostAsync($"comment/", bodyContent);
 
             if (response.IsSuccessStatusCode)
             {
