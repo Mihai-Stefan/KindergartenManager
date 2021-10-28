@@ -12,7 +12,7 @@
 <div class="container">
 <h3>Kid Details:</h3>
 
-<div class="card mt-4 bg-info">
+@*<div class="card mt-4 bg-info">
     <div class="row">
         <div class="col-md-3">
             <img src="/images/placeholder.jpg" class="img-fluid img-thumbnail" />
@@ -26,11 +26,24 @@
 
     </div>
 
-</div>
+</div>*@
+
+<figure class="snip0056 red">
+    <figcaption>
+        <h2>@ActualKid.FirstName <span>@ActualKid.LastName</span></h2>
+        <p class="overflow-auto">@ActualKid.Details</p>
+    </figcaption>
+    <img src="/images/placeholder.jpg" alt="kid image" />
+    <div class="position">
+        <NavLink href="@($"comment/create/{KidId}")" class="btn btn-primary m-2 btn-sm custom">Add Comment</NavLink>
+        <NavLink href="@($"kindergarten/kids")" class="btn btn-secondary m-2 btn-sm custom">Back to list</NavLink>
+    </div>
+</figure>
 
 
-<div class="container-fluid  p-4 bg-primary text-white">
-    <h3 style="color:lightblue">Kid Comments:</h3>
+
+<div class="container-fluid  p-4 bg-secondary text-white mt-4">
+    <h3 style="color:aliceblue">Kid Comments:</h3>
 
     <div class=" container row">
         @foreach (var comment in CommentList)
@@ -42,11 +55,10 @@
             <div class="col-md-6 p-4">
                 <div style="border:1px solid #d5d5d5; border-radius:20px; background-color:blue">
                     <div class="text-center justify-content-center">
-                        <h5 class="text-warning m-4" style="border:1px solid #d5d5d5; border-radius:5px; ">@comment.Title</h5>
+                        <h5 class="text-warning m-4" style="border:1px solid #d5d5d5; border-radius:5px;" >@comment.Title</h5>
                         <p class="text-start justify-content-evenly m-lg-4">@comment.Content</p>
                     </div>
-                    <div class="text-center justify-content-center mb-2">
-                        @*<button class="btn btn-sm btn-warning" @onclick="()=>HandleEdit(comment.Id)">Edit</button>*@
+                    <div class="text-center justify-content-center mb-2" >
                         <NavLink href="@($"comment/edit/{comment.Id}")" class="btn btn-warning m-2 btn-sm custom">Edit Comment</NavLink>
                         <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(comment.Id)">Delete</button>
                     </div>
@@ -96,8 +108,7 @@
     protected async Task HandleEdit(int commentId)
     {
         ActualKid = await KidRepo.GetKid(KidId.Value);
-        //await CommentRepo.UpdateKidComment(commentId, ActualKid);
-        //CommentList = await CommentRepo.GetComments();
+
     }
 
 

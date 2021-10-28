@@ -2,10 +2,12 @@
 @using Models
 @using Kindergarten_Server.Service.IService
 @using System.IO;
+@using Business.Repository.IRepository
 @inject NavigationManager NavigationManager
 @inject IJSRuntime jsRuntime
 @inject IJSRuntime JsRuntime
 @inject IFileUpload FileUpload
+@inject IEmployeeRepository EmployeeRepository
 @attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 
@@ -83,7 +85,15 @@
 
     private async void UploadEmployees()
     {
-        await jsRuntime.ToastrError("Not yet implemented.");
+        foreach (var employee in employees)
+        {
+            //Create new employee here
+            var createdResult = await EmployeeRepository.CreateEmployee(employee);
+            //EmployeeModel = new EmployeeDTO();
+            await JsRuntime.ToastrSuccess("Employee created successfully.");
+        }
+
+
     }
 
 }
