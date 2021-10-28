@@ -45,6 +45,28 @@ namespace Kindergarten_Client.HttpRepository
         }
 
 
+        // Edit/Update comment:
+        public async Task<KidCommentDTO> UpdateKidComment(int kidCommentId, KidCommentDTO kidCommentDTO)
+        {
+            var content = JsonConvert.SerializeObject(kidCommentDTO);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"comment/{kidCommentId}", bodyContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<KidCommentDTO>(contentTemp);
+                return result;
+            }
+            else
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(contentTemp);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+        }
+
+
 
         // Unnecessary - test purposes only
         public async Task<List<KidComment>> GetComments()
@@ -61,15 +83,20 @@ namespace Kindergarten_Client.HttpRepository
         }
 
 
-        public Task<KidCommentDTO> GetKidComment(int kidCommentId)
+        public async Task<KidCommentDTO> GetKidComment(int kidCommentId)
         {
-            throw new NotImplementedException();
+            var response = await _client.GetAsync($"comment/{kidCommentId}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var kidComment = System.Text.Json.JsonSerializer.Deserialize<KidCommentDTO>(content, _options);
+            return kidComment;
         }
 
-        public Task<KidCommentDTO> UpdateKidComment(int kidCommentId, KidCommentDTO kidCommentDTO)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<int> DeleteKidComment(int kidCommentId)
         {

@@ -46,7 +46,8 @@
                         <p class="text-start justify-content-evenly m-lg-4">@comment.Content</p>
                     </div>
                     <div class="text-center justify-content-center mb-2">
-                        <button class="btn btn-sm btn-warning">Edit</button>
+                        @*<button class="btn btn-sm btn-warning" @onclick="()=>HandleEdit(comment.Id)">Edit</button>*@
+                        <NavLink href="@($"comment/edit/{comment.Id}")" class="btn btn-warning m-2 btn-sm custom">Edit Comment</NavLink>
                         <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(comment.Id)">Delete</button>
                     </div>
 
@@ -69,13 +70,14 @@
     private int? DeleteCommentId { get; set; } = null;
     private bool IsProcessing { get; set; } = false;
 
-
     public Kid ActualKid { get; set; } = new Kid();
     [Inject]
     public IKidHttpRepository KidRepo { get; set; }
 
     [Inject]
     public ICommentHttpRepository CommentRepo { get; set; }
+
+
 
     protected async override Task OnInitializedAsync()
     {
@@ -91,6 +93,12 @@
     }
 
 
+    protected async Task HandleEdit(int commentId)
+    {
+        ActualKid = await KidRepo.GetKid(KidId.Value);
+        //await CommentRepo.UpdateKidComment(commentId, ActualKid);
+        //CommentList = await CommentRepo.GetComments();
+    }
 
 
 }

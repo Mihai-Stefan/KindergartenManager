@@ -29,7 +29,7 @@
                     </div>
                     <div class="text-center justify-content-center mb-2">
                         <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(comment.Id)">Delete</button>
+                        <button class="btn btn-danger m-2 btn-sm custom" @onclick="()=>HandleDelete(comment.Id)">DeleteCCC</button>
                     </div>
 
                 </div>
@@ -62,6 +62,7 @@
     {
         DeleteCommentId = commentId;
         //await JsRuntime.InvokeVoidAsync("ShowDeleteConfirmationModal");
+
     }
 
     //public async Task ConfirmDelete_Click(bool isConfirmed)

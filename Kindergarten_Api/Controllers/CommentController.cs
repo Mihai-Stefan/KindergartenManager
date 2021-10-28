@@ -46,14 +46,16 @@ namespace Kindergarten_Api.Controllers
         {
             await _commentRepository.CreateKidComment(comment);
 
-            return Ok(await GetComments());
+            //return Ok(await GetComments());
+            return Ok();
         }
 
 
         // Update comment
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateComment(int id, KidCommentDTO comment)
+        public async Task<IActionResult> UpdateComment(int id, [FromBody] KidCommentDTO comment)
         {
+            //comment.KidId = 5;
             var updComment = await _commentRepository.UpdateKidComment(id, comment);
             if (updComment == null)
                 return NotFound("Kid Comment wasn't found.");

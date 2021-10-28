@@ -4,6 +4,7 @@
 @using Models
 @using Kindergarten_Client.HttpRepository
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
 
 
 <div class="row mt-2 mb-5">
@@ -65,7 +66,7 @@
         {
             // updating
             Title = "Update";
-
+            CommentModel = await CommentRepo.GetKidComment(Id.Value);
         }
         else
         {
@@ -83,11 +84,15 @@
         {
 
             await CommentRepo.CreateKidComment(CommentModel);
+            //await JsRuntime.ToastrSuccess("New comment created successfully.");
+            //await JsRuntime.InvokeVoidAsync("toastr.success", "New comment created successfully.", "This is TITLE");
+            NavigationManager.NavigateTo($"/kg-kid-details/{KidId}");
         }
         else
         {
             // Update
             await CommentRepo.UpdateKidComment(CommentModel.Id, CommentModel);
+            NavigationManager.NavigateTo($"/kg-kid-details/{CommentModel.KidId}");
         }
     }
 
