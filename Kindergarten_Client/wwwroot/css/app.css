@@ -184,3 +184,15 @@ a {
     width: 210px !important;
     margin: 0 auto;
 }
+
+
+
+.sort-th {
+    cursor: pointer;
+}
+
+.fa {
+    float: right;
+    padding-right: 20px;
+}
+
