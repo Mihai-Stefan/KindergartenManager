@@ -58,16 +58,58 @@
 
 </div>
 
+@*footer table*@
+<div class="container-fluid pt-4 mt-4">
+    <div class="row">
+
+        <div class="col-md-4 col-6 p-4">
+            <div style=" border-radius:20px;">
+                <a href="#" class="list-group-item list-group-item-action bg-light font-weight-bold">
+                    SUNSHINE Kindergarten
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">Contact the Kindergarten</a>
+                <a href="#" class="list-group-item list-group-item-action">Accsessibility</a>
+                <a href="#" class="list-group-item list-group-item-action">Freedom of information</a>
+                <a href="#" class="list-group-item list-group-item-action disabled">Terms and conditions</a>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-6 p-4">
+                <div style=" border-radius:20px;">
+                    <a href="#" class="list-group-item list-group-item-action bg-light font-weight-bold">
+                        Optional activities
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">Foreign language lessons</a>
+                    <a href="#" class="list-group-item list-group-item-action">Martial arts lessons</a>
+                    <a href="#" class="list-group-item list-group-item-action">Music arts lessons</a>
+                    <a href="#" class="list-group-item list-group-item-action disabled">Painting art lessons</a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-6 p-4">
+                <div style=" border-radius:20px;">
+                    <a href="#" class="list-group-item list-group-item-action bg-light font-weight-bold">
+                        About the Kindergarten
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">How the Kindergarten works</a>
+                    <a href="#" class="list-group-item list-group-item-action">Jobs</a>
+                    <a href="#" class="list-group-item list-group-item-action">Maps</a>
+                    <a href="#" class="list-group-item list-group-item-action disabled">Virtual tour</a>
+                </div>
+            </div>
+    </div>
+</div>
 
 
-@code {
-    public IEnumerable<KgFacilityDTO> KgFacilities { get; set; } = new List<KgFacilityDTO>();
-    public bool IsProcessing { get; set; } = false;
-    protected override async Task OnInitializedAsync()
-    {
-        IsProcessing = true;
-        KgFacilities = await kgFacilityService.GetKgFacilities();
-        IsProcessing = false;
+
+    @code {
+        public IEnumerable<KgFacilityDTO> KgFacilities { get; set; } = new List<KgFacilityDTO>();
+        public bool IsProcessing { get; set; } = false;
+        protected override async Task OnInitializedAsync()
+        {
+            IsProcessing = true;
+            KgFacilities = await kgFacilityService.GetKgFacilities();
+            IsProcessing = false;
+        }
+
     }
-
-}

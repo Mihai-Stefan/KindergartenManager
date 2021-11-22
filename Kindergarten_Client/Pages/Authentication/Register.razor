@@ -13,11 +13,12 @@
 
                         @if (ShowRegistrationErrors)
                         {
-        <div>
-            @foreach (var error in Errors)
-            {
-<p class="text-danger text-center">@error</p>}
-        </div>}
+                        <div>
+                            @foreach (var error in Errors)
+                                {
+                                <p class="text-danger text-center">@error</p>
+                                }
+                        </div>}
 
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">

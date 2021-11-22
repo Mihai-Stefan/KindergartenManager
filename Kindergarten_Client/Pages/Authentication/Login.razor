@@ -1,33 +1,53 @@
 ﻿@page "/login"
 
-<div id="logreg-forms" class="bg-dark border">
+<div class="py-4 mt-4">
+    <div class=" row form-group ">
+        <div class="col-6 offset-3 ">
+            <div class="card border">
+                <div class="card-body px-lg-5 pt-4">
+                    <h3 class="col-12 text-success text-center py-2">
+                        <strong>Sign In</strong>
+                    </h3>
 
-    <h1 class="h3 mb-3 pt-3 font-weight-normal text-primary" style="text-align:center;">Sign In</h1>
+                    <EditForm Model="UserForAuthentication" OnValidSubmit="LoginUser">
+                        <DataAnnotationsValidator />
 
-    <EditForm Model="UserForAuthentication" OnValidSubmit="LoginUser">
-        <DataAnnotationsValidator />
+                        @if (ShowAuthenticationErrors)
+                        {
+                            <p class="text-center text-danger">@Errors</p>
+                        }
 
-        @if (ShowAuthenticationErrors)
-        {
-            <p class="text-center text-danger">@Errors</p>
-        }
+                        <hr style="background-color:aliceblue" />
+                        <div class="py-2">
+                            <InputText @bind-Value="UserForAuthentication.UserName" class="form-control" placeholder="Email..." />
+                            <ValidationMessage For="(()=>UserForAuthentication.UserName)"></ValidationMessage>
+                        </div>
 
-        <InputText @bind-Value="UserForAuthentication.UserName" id="email" placeholder="Email..." class="form-control mb-2" />
-        <ValidationMessage For="(()=>UserForAuthentication.UserName)"></ValidationMessage>
-        <InputText @bind-Value="UserForAuthentication.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
-        <ValidationMessage For="(()=>UserForAuthentication.Password)"></ValidationMessage>
+                        <div class="py-2">
+                            <InputText @bind-Value="UserForAuthentication.Password" type="password" placeholder="Password..." id="password" class="form-control mb-2" />
+                            <ValidationMessage For="(()=>UserForAuthentication.Password)"></ValidationMessage>
+                        </div>
 
-        @if (IsProcessing)
-        {
-            <button type="submit" class="btn btn-success btn-block disabled"><i class="fas fa-sign-in-alt"></i> Please Wait...</button> 
-        }
-        else
-        {
-            <button type="submit" class="btn btn-success btn-block"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-        }
-        <a href="/registration"
-           class="btn btn-primary text-white mt-3"><i class="fas fa-user-plus"></i> Register as a new user</a>
-    </EditForm>
+                        <hr style="background-color:aliceblue" />
+                        <div class="py-2">
+                            @if (IsProcessing)
+                            {
+                                <button type="submit" class="btn btn-success btn-block disabled"><i class="fas fa-sign-in-alt"></i> Please Wait...</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success btn-block"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+                            }
+                        </div>
 
+                            @*<a href="/registration"
+            class="btn btn-primary text-white mt-3"><i class="fas fa-user-plus"></i> Register as a new user</a>*@
+                    </EditForm>
+
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
